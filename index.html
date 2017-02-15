@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Pizza Menu</title>
+        <link rel="stylesheet" href="styles.css">
+	</head>
+	<body>
+	
+		<div class="heading">
+			<h1>Terry's Pizza Order Form</h1>
+		</div><!-- heading -->
+		
+		<div class="form_container">
+            <form id="form1">
+                
+            <!-- size -->
+                
+                <div id="size" class="form_section">
+                    <h2>Choose the size you want:</h2>
+                    <input type="radio" name="rdSize" value="personal">Personal: $6.00
+                    <input type="radio" name="rdSize" value="medium" checked>Medium: $10.00
+                    <input type="radio" name="rdSize" value="large">Large: $14.00
+                    <input type="radio" name="rdSize" value="xlarge">Extra Large: $16.00           
+                </div><!-- form_section -->
+                
+            <!-- crust -->
+                  
+                <div id="crust" class="form_section">
+                    <h2>Choose a type of crust:</h2>
+                    <p>Stuffed Crust: $3.00</p>
+                    <input type="radio" name="rdCrust" value="plain" checked>Plain
+                    <input type="radio" name="rdCrust" value="garlic">Garlic Butter
+                    <input type="radio" name="rdCrust" value="stuffed">Cheese Stuffed
+                    <input type="radio" name="rdCrust" value="spicy">Spicy
+                    <input type="radio" name="rdCrust" value="special">House Special            
+                </div><!-- form_section -->
+                
+            <!-- sauce -->
+                
+                <div id="sauce" class="form_section">
+                    <h2>Choose a sauce:</h2>
+                    <input type="radio" name="rdSauce" value="marinara" checked>Marinara
+                    <input type="radio" name="rdSauce" value="white">White
+                    <input type="radio" name="rdSauce" value="barbeque">Barbeque
+                    <input type="radio" name="rdSauce" value="none">No Sauce            
+                </div><!-- form_section -->
+                
+            <!-- cheese -->
+                
+                <div id="cheese" class="form_section">
+                    <h2>Choose your cheese:</h2>
+                    <p>Extra cheese: $3.00</p>
+                    <input type="radio" name="rdCheese" value="regular" checked>Regular
+                    <input type="radio" name="rdCheese" value="none">No Cheese
+                    <input type="radio" name="rdCheese" value="extra">Extra Cheese               
+                </div><!-- form_section -->
+                
+            <!-- meat -->
+
+                <div id="meat" class="form_section">
+                    <h2>Choose your meat toppings:</h2>
+                    <p>First topping is free, each additional is $1.00</p>
+                    <input type="checkbox" name="ckMeat" value="Pepperoni">Pepperoni
+                    <input type="checkbox" name="ckMeat" value="Sausage">Sausage
+                    <input type="checkbox" name="ckMeat" value="Canadian Bacon">Canadian Bacon
+                    <input type="checkbox" name="ckMeat" value="Ground Beef">Ground Beef
+                    <input type="checkbox" name="ckMeat" value="Anchovy">Anchovy
+                    <input type="checkbox" name="ckMeat" value="Chicken">Chicken 
+                </div><!-- form_section -->
+                
+            <!-- veggies -->
+           
+                <div id="veggies" class="form_section">
+                    <h2>Choose your vegetable toppings:</h2>
+                    <p>First topping is free, each additional is $1.00</p>
+                    <input type="checkbox" name="ckVeg" value="Tomatoes">Tomatoes
+                    <input type="checkbox" name="ckVeg" value="Onions">Onions
+                    <input type="checkbox" name="ckVeg" value="Olives">Olives
+                    <input type="checkbox" name="ckVeg" value="Green Peppers">Green Peppers
+                    <input type="checkbox" name="ckVeg" value="Mushrooms">Mushrooms
+                    <input type="checkbox" name="ckVeg" value="Pineapple">Pineapple
+                    <input type="checkbox" name="ckVeg" value="Spinach">Spinach
+                    <input type="checkbox" name="ckVeg" value="Jalepenos">Jalepenos        
+                </div><!-- form_section -->
+                
+            <!-- submit -->
+                
+                <button type="button" onClick="processOrder()">Place Order</button>
+                
+            </form>
+            
+            
+            
+		</div><!-- form_container -->
+        
+            <!-- result display -->
+                
+        <div id="orderRes">
+            <p><em>Waiting for Order</em></p>
+                
+        </div><!-- order -->
+
+    <script type="text/javascript">
+            
+    /* processOrder parses order form object and loads information into pizza object, then passes object to displayOrder function */
+        
+
+        function processOrder() {
+   //declare pizza object
+            var pizza = {
+                psize : "",
+                crust : "",
+                sauce : "",
+                cheese : "",
+                meat : [],
+                veg : [],
+                price : 0
+            };
+    //access form data
+            var formData = document.getElementById("form1");
+            var text = "";
+            var i;
+            var m = 0;
+            var v = 0;
+    //parse form data into pizza object
+            for (i = 0; i < formData.length; i++) {
+                if (formData[i].name == "rdSize" && formData[i].checked) {
+                    pizza.psize = formData[i].value;
+                } else if (formData[i].name == "rdCrust" && formData[i].checked) {
+                    pizza.crust = formData[i].value;
+                } else if (formData[i].name == "rdSauce" && formData[i].checked) {
+                    pizza.sauce = formData[i].value;
+                } else if (formData[i].name == "rdCheese" && formData[i].checked) {
+                    pizza.cheese = formData[i].value;
+                } else if (formData[i].name == "ckMeat" && formData[i].checked) {
+                    pizza.meat[m] = formData[i].value;
+                    m++;
+                } else if (formData[i].name == "ckVeg" && formData[i].checked) {
+                    pizza.veg[v] = formData[i].value;
+                    v++;
+                }
+            }
+            //console.log(pizza);
+            displayOrder(pizza);
+        }
+        
+        function displayOrder(pizza) {
+            var orderOut = document.getElementById("orderRes");
+            var orderContent = 
+                "<h2>Order:</h2><table><tr><th width=35%>Item</th><th width=35%>Description</th><th>Price</th></tr>";
+    //size
+            orderContent += "<tr><td>Size</td>";
+            switch(pizza.psize) {
+                case "personal" :
+                    orderContent += "<td>Personal</td><td class='price'>6.00</td></tr>";
+                    pizza.price = 6;
+                    break;
+                case "medium" :
+                    orderContent += "<td>Medium</td><td class='price'>10.00</td></tr>";
+                    pizza.price = 10;
+                    break;
+                case "large" :
+                    orderContent += "<td>Large</td><td class='price'>14.00</td></tr>";
+                    pizza.price = 14;
+                    break;
+                case "xlarge" :
+                    orderContent += "<td>Extra Large</td><td class='price'>16.00</td></tr>";
+                    pizza.price = 16;
+                    break;
+            }
+            
+    //crust
+            orderContent += "<tr><td>Crust</td>";
+            switch(pizza.crust) {
+                case "plain" :
+                    orderContent += "<td>Plain</td><td class='price'>Included</td></tr>";
+                    break;
+                case "garlic" :
+                    orderContent += "<td>Garlic Butter</td><td class='price'>Included</td></tr>";
+                    break;
+                case "stuffed" :
+                    orderContent += "<td>Cheese Stuffed</td><td class='price'>3.00</td></tr>";
+                    pizza.price += 3;
+                    break;
+                case "spicy" :
+                    orderContent += "<td>Spicy</td><td class='price'>Included</td></tr>";
+                    break;
+                case "special" :
+                    orderContent += "<td>House Special</td><td class='price'>Included</td></tr>";
+                    break;
+            }
+            
+    //sauce
+            
+            orderContent += "<tr><td>Sauce</td>";
+            switch(pizza.sauce) {
+                case "marinara" :
+                    orderContent += "<td>Marinara</td><td class='price'>Included</td></tr>";
+                    break;
+                case "white" :
+                    orderContent += "<td>White</td><td class='price'>Included</td></tr>";
+                    break;
+                case "barbeque" :
+                    orderContent += "<td>Barbeque</td><td class='price'>Included</td></tr>";
+                    break;
+                case "none" :
+                    orderContent += "<td>No Sauce</td><td class='price'>Included</td></tr>";
+                    break;
+            }
+            
+    //cheese
+            
+            orderContent += "<tr><td>Cheese</td>";
+            switch(pizza.cheese) {
+                case "regular" :
+                    orderContent += "<td>Regular</td><td class='price'>Included</td></tr>";
+                    break;
+                case "none" :
+                    orderContent += "<td>No Cheese</td><td class='price'>Included</td></tr>";
+                    break;
+                case "extra" :
+                    orderContent += "<td>Extra Cheese</td><td class='price'>3.00</td></tr>";
+                    pizza.price += 3;
+                    break;
+            }
+            
+    //meat
+            
+            for (var i = 0; i < pizza.meat.length; i++) {
+                if (i === 0) {
+                    orderContent += "<tr><td>Meat Toppings</td>";
+                } else if (i > 0) {
+                    orderContent += "<tr><td></td>";
+                }
+                orderContent += "<td>" + pizza.meat[i] + "</td>";
+                if (i === 0) {
+                    orderContent += "<td class='price'>Included</td></tr>";
+                } else {
+                    orderContent += "<td class='price'>1.00</td></tr>";
+                    pizza.price += 1;
+                }
+            }
+            
+    //veggies
+            
+           for (var i = 0; i < pizza.veg.length; i++) {
+                if (i === 0) {
+                    orderContent += "<tr><td>Vegetable Toppings</td>";
+                } else if (i > 0) {
+                    orderContent += "<tr><td></td>";
+                }
+                orderContent += "<td>" + pizza.veg[i] + "</td>";
+                if (i === 0) {
+                    orderContent += "<td class='price'>Included</td></tr>";
+                } else {
+                    orderContent += "<td class='price'>1.00</td></tr>";
+                    pizza.price += 1;
+                }
+            }
+            
+    //total
+            
+            orderContent += "<tr class='total'><td>Total</td><td></td><td class='price'>" + pizza.price.toString() + ".00</td></tr></table>";
+            
+            orderOut.innerHTML = orderContent;
+        }
+    </script>
+	</body>
+</html>

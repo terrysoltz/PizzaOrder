@@ -1,0 +1,57 @@
+html {
+    font-family : Tahoma, Geneva, sans-serif;
+}
+
+body {
+    border: 3px solid red;
+}
+
+.heading, .form_container, #orderRes {
+    border: 3px solid red;
+    padding: 5px 10px;
+    margin: 0px;
+}
+
+.heading {
+    align-content: center;
+}
+
+h1 {
+    font-variant: small-caps;
+    margin: 10px auto;
+    text-align: center;
+    border: 3px solid green;
+    border-radius: 15px;
+    width: 60%;
+    box-shadow: 2px 2px 5px lightgrey;
+}
+
+.form_section p {
+    margin-top: -15px;
+}
+
+button {
+    font-weight: bold;
+    display: block;
+    margin: 15px auto;
+    padding: 5px;
+}
+
+table {
+    width: 75%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 2px 20px;
+}
+
+.price {
+    text-align: right;
+}
+
+.total {
+    font-weight: bold;
+    border-top: 2px solid black;
+}
